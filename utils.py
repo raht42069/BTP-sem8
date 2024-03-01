@@ -25,7 +25,7 @@ def parse_args():
                         help='number of attention heads for each level')
     parser.add_argument('--channels', nargs='+', type=int, default=[48, 96, 192, 384],
                         help='number of channels for each level')
-    parser.add_argument('--expansion_factor', type=float, default=2.66, help='factor of channel expansion for GDFN')
+    parser.add_argument('--expansion_factor', type=float, default=2.66, help='factor of channel expansion for GatedFFNN')
     parser.add_argument('--num_refinement', type=int, default=4, help='number of channels for refinement stage')
     parser.add_argument('--num_iter', type=int, default=30, help='iterations of training')
     parser.add_argument('--batch_size', nargs='+', type=int, default=[2, 2, 2, 2, 2, 2],

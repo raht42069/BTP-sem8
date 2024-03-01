@@ -3,9 +3,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-class MDTA(nn.Module):
+class MultiHeadANN(nn.Module):
     def __init__(self, channels, num_heads):
-        super(MDTA, self).__init__()
+        super(MultiHeadANN, self).__init__()
         self.num_heads = num_heads
         self.temperature = nn.Parameter(torch.ones(1, num_heads, 1, 1))
 
@@ -27,9 +27,9 @@ class MDTA(nn.Module):
         return out
 
 
-class GDFN(nn.Module):
+class GatedFFNN(nn.Module):
     def __init__(self, channels, expansion_factor):
-        super(GDFN, self).__init__()
+        super(GatedFFNN, self).__init__()
 
         hidden_channels = int(channels * expansion_factor)
         self.project_in = nn.Conv2d(channels, hidden_channels * 2, kernel_size=1, bias=False)
@@ -48,9 +48,9 @@ class TransformerBlock(nn.Module):
         super(TransformerBlock, self).__init__()
 
         self.norm1 = nn.LayerNorm(channels)
-        self.attn = MDTA(channels, num_heads)
+        self.attn = MultiHeadANN(channels, num_heads)
         self.norm2 = nn.LayerNorm(channels)
-        self.ffn = GDFN(channels, expansion_factor)
+        self.ffn = GatedFFNN(channels, expansion_factor)
 
     def forward(self, x):
         b, c, h, w = x.shape
